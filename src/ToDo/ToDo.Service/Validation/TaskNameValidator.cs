@@ -9,7 +9,7 @@ public class TaskNameValidator : ITaskValidator
     {
         if (task == null)
         {
-            return new TaskValidatorResult($"The '{nameof(task)}' argument can not be empty");
+            return new TaskValidatorResult("Task can not be empty");
         }
 
         return task.Name.IsNullOrEmpty()

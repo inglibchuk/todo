@@ -14,7 +14,7 @@ namespace ToDo.Service.Tests
         [DataRow("\t")]
         public void Validate_EmptyName_Invalid(string taskName)
         {
-            ITaskValidator taskNameValidator = new TaskNameValidator();
+            var taskNameValidator = new TaskNameValidator();
             var emptyNameTask = new TodoTask { Name = taskName };
 
             var validationResult = taskNameValidator.Validate(emptyNameTask);
@@ -27,7 +27,7 @@ namespace ToDo.Service.Tests
         [TestMethod]
         public void Validate_NormalName_Invalid()
         {
-            ITaskValidator taskNameValidator = new TaskNameValidator();
+            var taskNameValidator = new TaskNameValidator();
             var filledNameTask = new TodoTask { Name = "To do something" };
 
             var validationResult = taskNameValidator.Validate(filledNameTask);
@@ -38,15 +38,13 @@ namespace ToDo.Service.Tests
         [TestMethod]
         public void Validate_NullValue_Invalid()
         {
-            ITaskValidator taskNameValidator = new TaskNameValidator();
-
-#pragma warning disable CS8625
+            var taskNameValidator = new TaskNameValidator();
+            
             var validationResult = taskNameValidator.Validate(null);
-#pragma warning restore CS8625
 
             Assert.IsNotNull(validationResult);
             Assert.IsFalse(validationResult.IsSuccess);
-            Assert.AreEqual("The 'task' argument can not be empty", validationResult.Error);
+            Assert.AreEqual("Task can not be empty", validationResult.Error);
         }
     }
 }

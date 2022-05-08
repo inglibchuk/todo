@@ -2,7 +2,7 @@
 
 public static class StringExtensions
 {
-    public static bool IsNullOrEmpty(this string target)
+    public static bool IsNullOrEmpty(this string? target)
     {
         return string.IsNullOrWhiteSpace(target);
     }

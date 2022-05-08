@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -9,6 +9,10 @@
   <ItemGroup>
     <ProjectReference Include="..\ToDo.Core\ToDo.Core.csproj" />
     <ProjectReference Include="..\ToDo.Data\ToDo.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Validation\" />
   </ItemGroup>
 
 </Project>

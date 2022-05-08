@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ToDo.Core;
 
 namespace ToDo.Data.Tests
 {
@@ -9,7 +10,7 @@ namespace ToDo.Data.Tests
         [TestMethod]
         public async Task GetAllAsync_FirstRequest_EmptyCollection()
         {
-            var repository = new JustInMemoryRepository<object>();
+            var repository = new JustInMemoryRepository<EntityBase>();
 
             var result = await repository.GetAllAsync();
 

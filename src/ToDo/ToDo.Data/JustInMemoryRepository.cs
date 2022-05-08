@@ -1,6 +1,8 @@
-﻿namespace ToDo.Data;
+﻿using ToDo.Core;
 
-public class JustInMemoryRepository<TEntity> : IRepository<TEntity>
+namespace ToDo.Data;
+
+public class JustInMemoryRepository<TEntity> : IRepository<TEntity> where TEntity : EntityBase
 {
     private readonly List<TEntity> _entities = new();
 

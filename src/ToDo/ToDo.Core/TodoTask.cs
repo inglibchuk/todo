@@ -1,7 +1,9 @@
 ﻿namespace ToDo.Core
 {
-    public class TodoTask
+    public class TodoTask : EntityBase
     {
-        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public int Priority { get; set; }
+        public TodoTaskStatus Status { get; set; }
     }
 }

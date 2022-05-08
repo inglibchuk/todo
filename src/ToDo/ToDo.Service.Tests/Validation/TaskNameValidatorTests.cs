@@ -2,7 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToDo.Core;
 using ToDo.Service.Validation;
 
-namespace ToDo.Service.Tests
+namespace ToDo.Service.Tests.Validation
 {
     [TestClass]
     public class TaskNameValidatorTests

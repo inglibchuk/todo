@@ -8,21 +8,20 @@ import { ToDoTask } from '../ToDoTask';
 })
 export class TodoListComponent implements OnInit {
   tasks: ToDoTask[] = [];
+  taskPriority: any = 1;
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  add(taskName: string, taskPriority: string): boolean {
+  add(taskName: string): boolean {
     taskName = taskName.trim();
     if (!taskName){
       return false;
     }
 
-    let taskPriorityAsNumber = +taskPriority < 0 ? 0 : +taskPriority;
-
-    this.tasks.push({Name: taskName, Priority: taskPriorityAsNumber, Status: 0} as ToDoTask)
+    this.tasks.push({Name: taskName, Priority: this.taskPriority < 0 ? 0 : this.taskPriority, Status: 0} as ToDoTask)
 
     return true;
   }

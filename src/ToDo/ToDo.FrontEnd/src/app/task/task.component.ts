@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ToDoTask } from '../ToDoTask';
 
 @Component({
-  selector: 'app-task',
+  selector: '[app-task]',
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.scss']
 })

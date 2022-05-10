@@ -1,15 +1,32 @@
-<div>
-  <label for="new-task"></label>
-  <input id="new-task" #taskName />
-  <input id="new-task-priority" #taskPriority type="number" />
+<div class="row">
+  <div class="col-12 col-md-9">
+    <div class="input-group">
+      <input id="new-task" class="form-control" #taskName placeholder="Task title">
+      <select #taskPriority class="form-select" style="max-width: 150px;">
+        <option value="1" selected>High</option>
+        <option value="2">Medium</option>
+        <option value="3">Low</option>
+      </select>
+    </div>
+  </div>
 
-  <button type="button" class="add-button" (click)="add(taskName.value, taskPriority.value) && taskName.value=''">
-    Add task
-  </button>
+  <div class="col-1 col-md-3">
+    <button type="button" class="btn btn-primary" (click)="add(taskName.value) && taskName.value=''">
+      Add task
+    </button>
+  </div>
 </div>
 
-<ul class="todo-task">
-  <li *ngFor="let task of tasks | orderBy: 'Priority'">
-    <app-task [task]="task" (onDelete)="deleteTask($event)" (onUpdate)="updateTask($event)"></app-task>
-  </li>
-</ul>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="col-1">Priority</th>
+    <th scope="col-8">Name</th>
+    <th scope="col-2">Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let task of tasks | orderBy: 'Priority'" app-task [task]="task" (onDelete)="deleteTask($event)" (onUpdate)="updateTask($event)">
+    </tr>
+  </tbody>
+</table>

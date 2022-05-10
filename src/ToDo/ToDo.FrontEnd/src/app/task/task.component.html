@@ -1,6 +1,8 @@
-<span [style.text-decoration]="task.Status == 2? 'line-through' : 'none'"><span>{{task.Priority}}</span> {{task?.Name}}</span>
-
-<button *ngIf="task?.Status == 0" type="button" title="start" (click)="startTask()">></button>
-<button *ngIf="task?.Status == 1" type="button" title="stop" (click)="stopTask()">V</button>
-<button *ngIf="task?.Status == 1" type="button" title="complete" (click)="completeTask()">V</button>
-<button *ngIf="task?.Status == 2" type="button" title="delete" (click)="deleteTask()">X</button>
+<td class="col-1">{{task.Priority}}</td>
+<td [style.text-decoration]="task.Status == 2? 'line-through' : 'none'">{{task?.Name}}</td>
+<td class="col-3">
+  <button *ngIf="task?.Status == 0" type="button" class="btn btn-primary " title="start" (click)="startTask()">></button>
+  <button *ngIf="task?.Status == 1" type="button" class="btn btn-secondary m-1" title="stop" (click)="stopTask()"><</button>
+  <button *ngIf="task?.Status == 1" type="button" class="btn btn-success m-1" title="complete" (click)="completeTask()">V</button>
+  <button *ngIf="task?.Status == 2" type="button" class="btn btn-dark" title="delete" (click)="deleteTask()">X</button>
+</td>

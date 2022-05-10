@@ -3,8 +3,7 @@ import { ToDoTask } from '../ToDoTask';
 
 @Component({
   selector: '[app-task]',
-  templateUrl: './task.component.html',
-  styleUrls: ['./task.component.scss']
+  templateUrl: './task.component.html'
 })
 export class TaskComponent implements OnInit {
   @Input() task!: ToDoTask;

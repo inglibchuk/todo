@@ -5,8 +5,7 @@ import { ToDoTask } from '../ToDoTask';
 
 @Component({
   selector: 'app-todo-list',
-  templateUrl: './todo-list.component.html',
-  styleUrls: ['./todo-list.component.scss']
+  templateUrl: './todo-list.component.html'
 })
 export class TodoListComponent implements OnInit {
   tasks: ToDoTask[] = [];

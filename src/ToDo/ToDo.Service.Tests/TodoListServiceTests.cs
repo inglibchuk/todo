@@ -107,15 +107,18 @@ namespace ToDo.Service.Tests
         public async Task Delete_CompletedTask_TaskDeleted()
         {
             var repository = new Mock<IRepository<TodoTask>>();
-            var targetTask = new TodoTask { Status = TodoTaskStatus.Completed };
+            var targetTask = new TodoTask { Id = Guid.NewGuid(), Status = TodoTaskStatus.Completed };
             repository.Setup(x => x.DeleteAsync(targetTask));
+            repository.Setup(x => x.GetByIdAsync(targetTask.Id)).Returns(Task.FromResult(targetTask)!);
             var validation = new Mock<ITaskValidationService>();
+            validation.Setup(x => x.Validate(targetTask)).Returns(Array.Empty<TaskValidatorResult>());
 
             var todoListService = new TodoListService(repository.Object, validation.Object);
 
-            await todoListService.DeleteTaskAsync(targetTask);
-            
+            await todoListService.DeleteTaskAsync(targetTask.Id);
+
             validation.VerifyNoOtherCalls();
+            repository.Verify(x => x.GetByIdAsync(targetTask.Id), Times.Once);
             repository.Verify(x => x.DeleteAsync(targetTask), Times.Once);
             repository.VerifyNoOtherCalls();
         }
@@ -126,16 +129,18 @@ namespace ToDo.Service.Tests
         public async Task Delete_CompletedTask_TaskStillExist(TodoTaskStatus taskStatus)
         {
             var repository = new Mock<IRepository<TodoTask>>();
-            var targetTask = new TodoTask{Status =taskStatus };
-            repository.Setup(x => x.UpdateAsync(targetTask));
+            var targetTask = new TodoTask { Status = taskStatus, Id = Guid.NewGuid() };
+            repository.Setup(x => x.DeleteAsync(targetTask));
+            repository.Setup(x => x.GetByIdAsync(targetTask.Id)).Returns(Task.FromResult(targetTask)!);
             var validation = new Mock<ITaskValidationService>();
             validation.Setup(x => x.Validate(targetTask)).Returns(Array.Empty<TaskValidatorResult>());
 
             var todoListService = new TodoListService(repository.Object, validation.Object);
 
-            await todoListService.DeleteTaskAsync(targetTask);
-            
+            await todoListService.DeleteTaskAsync(targetTask.Id);
+
             validation.VerifyNoOtherCalls();
+            repository.Verify(x => x.GetByIdAsync(targetTask.Id), Times.Once);
             repository.VerifyNoOtherCalls();
         }
     }

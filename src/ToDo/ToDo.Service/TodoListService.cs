@@ -20,31 +20,42 @@ public class TodoListService : ITodoListService
         return await _taskRepository.GetAllAsync();
     }
 
-    public virtual async Task AddTaskAsync(TodoTask task)
+    public virtual async Task<ICollection<string>> AddTaskAsync(TodoTask task)
     {
-        if (_validationService.Validate(task).Count > 0)
+        var validationResults = _validationService.Validate(task);
+        if (validationResults.Count > 0)
         {
-            return;
+            return validationResults.Select(x=>x.Error).ToArray();
         }
         await _taskRepository.AddAsync(task);
+        return Array.Empty<string>();
     }
 
-    public virtual async Task UpdateTaskAsync(TodoTask task)
+    public virtual async Task<ICollection<string>> UpdateTaskAsync(TodoTask task)
     {
-        if (_validationService.Validate(task).Count > 0)
+        var validationResults = _validationService.Validate(task);
+        if (validationResults.Count > 0)
         {
-            return;
+            return validationResults.Select(x=>x.Error).ToArray();
         }
         await _taskRepository.UpdateAsync(task);
+        return Array.Empty<string>();
     }
 
-    public virtual async Task DeleteTaskAsync(TodoTask task)
+    public virtual async Task<ICollection<string>> DeleteTaskAsync(Guid taskId)
     {
+        var task = await _taskRepository.GetByIdAsync(taskId);
+        if (task == null)
+        {
+            return new []{ $"Task '{taskId}' does not exist" };
+        }
+
         if (task.Status != TodoTaskStatus.Completed)
         {
-            return;
+            return new []{ $"Task '{task.Name}' is not completed" };
         }
 
         await _taskRepository.DeleteAsync(task);
+        return Array.Empty<string>();
     }
 }

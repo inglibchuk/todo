@@ -13,6 +13,7 @@ public class JustInMemoryRepository<TEntity> : IRepository<TEntity> where TEntit
 
     public Task AddAsync(TEntity entity)
     {
+        entity.Id = Guid.NewGuid();
         _entities.Add(entity);
         return Task.CompletedTask;
     }
@@ -34,5 +35,10 @@ public class JustInMemoryRepository<TEntity> : IRepository<TEntity> where TEntit
             _entities.Remove(existEntity);
         }
         return Task.CompletedTask;
+    }
+
+    public Task<TEntity?> GetByIdAsync(Guid taskId)
+    {
+        return Task.FromResult(_entities.FirstOrDefault(x => x.Id == taskId));
     }
 }

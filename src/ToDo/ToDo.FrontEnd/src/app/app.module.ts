@@ -9,13 +9,15 @@ import { TodoListComponent } from './todo-list/todo-list.component';
 import { TaskComponent } from './task/task.component';
 import { OrderByPipe } from './order-by.pipe';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ToastsContainer } from './toast-container/toast-container.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TodoListComponent,
     TaskComponent,
-    OrderByPipe
+    OrderByPipe,
+    ToastsContainer
   ],
   imports: [
     BrowserModule,

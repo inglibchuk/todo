@@ -1,4 +1,5 @@
 using System.Text.Json;
+using ToDo.Core;
 using ToDo.Data;
 using ToDo.Service;
 using ToDo.Service.Validation;
@@ -6,7 +7,8 @@ using ToDo.Service.Validation;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddSingleton(typeof(IRepository<>), typeof(JustInMemoryRepository<>));
+//builder.Services.AddSingleton(typeof(IRepository<>), typeof(JustInMemoryRepository<>));
+builder.Services.AddSingleton<IRepository<TodoTask>, TodoTaskRepository>();
 builder.Services.AddScoped<ITaskValidationService, TaskValidationService>();
 builder.Services.AddScoped<ITodoListService, TodoListService>();
 

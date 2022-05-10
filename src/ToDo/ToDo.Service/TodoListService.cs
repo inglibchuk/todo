@@ -27,7 +27,16 @@ public class TodoListService : ITodoListService
         {
             return validationResults.Select(x=>x.Error).ToArray();
         }
-        await _taskRepository.AddAsync(task);
+
+        try
+        {
+            await _taskRepository.AddAsync(task);
+        }
+        catch (UniqueNameException e)
+        {
+            return new[] { e.Message };
+        }
+        
         return Array.Empty<string>();
     }
 

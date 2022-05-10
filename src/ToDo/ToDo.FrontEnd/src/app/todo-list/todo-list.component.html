@@ -1,0 +1,15 @@
+<div>
+  <label for="new-task"></label>
+  <input id="new-task" #taskName />
+  <input id="new-task-priority" #taskPriority type="number" />
+
+  <button type="button" class="add-button" (click)="add(taskName.value, taskPriority.value) && taskName.value=''">
+    Add task
+  </button>
+</div>
+
+<ul class="todo-task">
+  <li *ngFor="let task of tasks | orderBy: 'Priority'">
+    <app-task [task]="task" (onDelete)="deleteTask($event)" (onUpdate)="updateTask($event)"></app-task>
+  </li>
+</ul>

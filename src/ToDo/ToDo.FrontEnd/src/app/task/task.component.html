@@ -1,0 +1,6 @@
+<span [style.text-decoration]="task.Status == 2? 'line-through' : 'none'"><span>{{task.Priority}}</span> {{task?.Name}}</span>
+
+<button *ngIf="task?.Status == 0" type="button" title="start" (click)="startTask()">></button>
+<button *ngIf="task?.Status == 1" type="button" title="stop" (click)="stopTask()">V</button>
+<button *ngIf="task?.Status == 1" type="button" title="complete" (click)="completeTask()">V</button>
+<button *ngIf="task?.Status == 2" type="button" title="delete" (click)="deleteTask()">X</button>

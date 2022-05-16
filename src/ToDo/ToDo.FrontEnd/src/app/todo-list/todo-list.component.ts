@@ -10,6 +10,7 @@ import { ToDoTask } from '../ToDoTask';
 export class TodoListComponent implements OnInit {
   tasks: ToDoTask[] = [];
   taskPriority: any = 1;
+  taskCategory: string = 'A';
 
   constructor(private taskListService: TodoListService, public toastService: ToastService) { }
 
@@ -28,7 +29,7 @@ export class TodoListComponent implements OnInit {
     }
 
     this.taskListService
-      .addTask({Name: taskName, Priority: this.taskPriority < 0 ? 0 : this.taskPriority, Status: 0} as ToDoTask)
+      .addTask({Name: taskName, Priority: this.taskPriority < 0 ? 0 : this.taskPriority, Status: 0, Category: this.taskCategory} as ToDoTask)
       .subscribe(response=>{
         if (response.Errors != null && response.Errors.length > 0){
           response.Errors.forEach((errorLine:any) =>{

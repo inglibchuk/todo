@@ -59,6 +59,16 @@ public class TodoTaskRepository : JustInMemoryRepository<TodoTask>
     }
 }
 
+public sealed class TaxonomyRepository : JustInMemoryRepository<Taxonomy>
+{
+    public Taxonomy CategoryC = new() { Id = Guid.NewGuid(), Name = "C" };
+
+    public TaxonomyRepository()
+    {
+        AddAsync(CategoryC);
+    }
+}
+
 public class UniqueNameException : Exception
 {
     public UniqueNameException(string? entityName) : base($"Task's name '{entityName}' is not unique")

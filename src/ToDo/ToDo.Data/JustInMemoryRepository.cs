@@ -61,10 +61,14 @@ public class TodoTaskRepository : JustInMemoryRepository<TodoTask>
 
 public sealed class TaxonomyRepository : JustInMemoryRepository<Taxonomy>
 {
-    public Taxonomy CategoryC = new() { Id = Guid.NewGuid(), Name = "C" };
+    public static readonly Taxonomy CategoryA = new() { Id = Guid.NewGuid(), Name = "Category A" };
+    public static readonly Taxonomy CategoryB = new() { Id = Guid.NewGuid(), Name = "Category B" };
+    public static readonly Taxonomy CategoryC = new() { Id = Guid.NewGuid(), Name = "Category C" };
 
     public TaxonomyRepository()
     {
+        AddAsync(CategoryA);
+        AddAsync(CategoryB);
         AddAsync(CategoryC);
     }
 }

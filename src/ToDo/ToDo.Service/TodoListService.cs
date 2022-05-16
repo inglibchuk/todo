@@ -22,6 +22,11 @@ public class TodoListService : ITodoListService
 
     public virtual async Task<ICollection<string>> AddTaskAsync(TodoTask task)
     {
+        if (task.Priority == 1)
+        {
+            task.Category = TaxonomyRepository.CategoryC;
+        }
+
         var validationResults = _validationService.Validate(task);
         if (validationResults.Count > 0)
         {

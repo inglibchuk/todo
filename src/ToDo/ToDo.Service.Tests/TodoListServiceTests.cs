@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using ToDo.Core;
+using ToDo.Core.Extensions;
 using ToDo.Data;
 using ToDo.Service.Validation;
 
@@ -40,6 +41,65 @@ namespace ToDo.Service.Tests
 
             await todoListService.AddTaskAsync(targetTask);
 
+            validation.Verify(x => x.Validate(targetTask), Times.Once);
+            validation.VerifyNoOtherCalls();
+            repository.Verify(x => x.AddAsync(targetTask), Times.Once);
+            repository.VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
+        [DataRow(null)]
+        [DataRow("Category B")]
+        public async Task AddTaskAsync_TaskHasHighPriority_CategoryWasSetToC(string category)
+        {
+            var repository = new Mock<IRepository<TodoTask>>();
+            var targetTask = new TodoTask
+            {
+                Priority = 1,
+                Category = category.IsNullOrEmpty() 
+                    ? null 
+                    : new Taxonomy { Name = category }
+            };
+            repository.Setup(x => x.AddAsync(targetTask));
+            var validation = new Mock<ITaskValidationService>();
+            validation.Setup(x => x.Validate(targetTask)).Returns(Array.Empty<TaskValidatorResult>());
+
+            var todoListService = new TodoListService(repository.Object, validation.Object);
+
+            await todoListService.AddTaskAsync(targetTask);
+
+            Assert.IsNotNull(targetTask.Category);
+            Assert.AreSame(TaxonomyRepository.CategoryC, targetTask.Category);
+            validation.Verify(x => x.Validate(targetTask), Times.Once);
+            validation.VerifyNoOtherCalls();
+            repository.Verify(x => x.AddAsync(targetTask), Times.Once);
+            repository.VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
+        [DataRow(null)]
+        [DataRow("Category B")]
+        public async Task AddTaskAsync_TaskHasNotHighPriority_CategoryWasTheSameAsInput(string category)
+        {
+            var repository = new Mock<IRepository<TodoTask>>();
+            var taskCategory = category.IsNullOrEmpty()
+                ? null
+                : new Taxonomy { Name = category };
+            var targetTask = new TodoTask
+            {
+                Priority = 2,
+                Category = taskCategory
+            };
+            repository.Setup(x => x.AddAsync(targetTask));
+            var validation = new Mock<ITaskValidationService>();
+            validation.Setup(x => x.Validate(targetTask)).Returns(Array.Empty<TaskValidatorResult>());
+
+            var todoListService = new TodoListService(repository.Object, validation.Object);
+
+            await todoListService.AddTaskAsync(targetTask);
+            
+            //Category was not changed
+            Assert.AreSame(taskCategory, targetTask.Category);
             validation.Verify(x => x.Validate(targetTask), Times.Once);
             validation.VerifyNoOtherCalls();
             repository.Verify(x => x.AddAsync(targetTask), Times.Once);

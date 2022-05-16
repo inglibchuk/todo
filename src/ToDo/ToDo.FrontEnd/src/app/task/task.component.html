@@ -1,5 +1,6 @@
 <td class="col-1">{{task.Priority}}</td>
 <td [style.text-decoration]="task.Status == 2? 'line-through' : 'none'">{{task?.Name}}</td>
+<td [style.text-decoration]="task.Status == 2? 'line-through' : 'none'">{{task?.Category?.Name}}</td>
 <td class="col-3">
   <button *ngIf="task?.Status == 0" type="button" class="btn btn-primary " title="start" (click)="startTask()">></button>
   <button *ngIf="task?.Status == 1" type="button" class="btn btn-secondary m-1" title="stop" (click)="stopTask()"><</button>

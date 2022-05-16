@@ -7,6 +7,9 @@
         <option value="2">Medium</option>
         <option value="3">Low</option>
       </select>
+      <select [(ngModel)]="taskCategory" class="form-select" style="max-width: 150px;">
+        <option *ngFor="let taxonomy of taxonomies" [ngValue]="taxonomy">{{taxonomy.Name}}</option>
+      </select>
     </div>
   </div>
 
@@ -21,7 +24,8 @@
   <thead>
   <tr>
     <th scope="col-1">Priority</th>
-    <th scope="col-8">Name</th>
+    <th scope="col-6">Name</th>
+    <th scope="col-2">Category</th>
     <th scope="col-2">Actions</th>
   </tr>
   </thead>

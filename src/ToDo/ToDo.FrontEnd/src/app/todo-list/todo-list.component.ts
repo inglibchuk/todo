@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Taxonomy } from '../Taxonomy';
+import { TaxonomyServiceService } from '../taxonomy-service.service';
 import { ToastService } from '../toast.service';
 import { TodoListService } from '../todo-list.service';
 import { ToDoTask } from '../ToDoTask';
@@ -9,11 +11,14 @@ import { ToDoTask } from '../ToDoTask';
 })
 export class TodoListComponent implements OnInit {
   tasks: ToDoTask[] = [];
+  taxonomies: Taxonomy[] = [];
   taskPriority: any = 1;
+  taskCategory?: Taxonomy;
 
-  constructor(private taskListService: TodoListService, public toastService: ToastService) { }
+  constructor(private taskListService: TodoListService, public toastService: ToastService,  public taxonomyService: TaxonomyServiceService) { }
 
   ngOnInit(): void {
+    this.getTaxonomy();
     this.getTasks();
   }
 
@@ -28,7 +33,7 @@ export class TodoListComponent implements OnInit {
     }
 
     this.taskListService
-      .addTask({Name: taskName, Priority: this.taskPriority < 0 ? 0 : this.taskPriority, Status: 0} as ToDoTask)
+      .addTask({Name: taskName, Priority: this.taskPriority < 0 ? 0 : this.taskPriority, Status: 0, Category: this.taskCategory} as ToDoTask)
       .subscribe(response=>{
         if (response.Errors != null && response.Errors.length > 0){
           response.Errors.forEach((errorLine:any) =>{
@@ -74,6 +79,9 @@ export class TodoListComponent implements OnInit {
 
   getTasks():void{
     this.taskListService.getTasks().subscribe(x=>this.tasks = x);
+  }
+  getTaxonomy():void{
+    this.taxonomyService.getTaxonomy().subscribe(x=>this.taxonomies = x);
   }
 
   showError(message: any){
